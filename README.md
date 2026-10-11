@@ -15,7 +15,7 @@ Prototipe sistem peringatan dini keamanan dan kualitas makanan untuk program Mak
 |`flows/MBG\\\_Guard\\\_-\\\_Flow\\\_B\\\_Rule-Based\\\_Detection.json`|Flow B: aturan deteksi, status hijau/kuning/merah per sekolah beserta bukti (tanpa AI)|
 |`flows/MBG\\\_Guard\\\_-\\\_Flow\\\_C\\\_Daily\\\_Summary.json`|Flow C: ringkasan per sekolah dari keluaran Flow B (tanpa AI)|
 |`bob\\\_custom\\\_mode\\\_fields.md`|Isi custom mode Bob untuk petugas|
-|`Proposal\\\_MBG\\\_Guard.docx`|Proposal|
+|`Proposal\\\MBG\\\Guard.docx`|Proposal|
 |`demo/demo\\\_payload\\\_flow\\\_b.json`|Contoh input Flow B (data buatan tangan)|
 
 ## Cara kerja
