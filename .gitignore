@@ -1,0 +1,18 @@
+# Rahasia: jangan pernah di-commit
+.env
+.env.*
+*.key
+*.pem
+secrets/
+.bob/
+
+# Berkas lokal
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+__pycache__/
+*.pyc
+
+# Salinan kerja HTML yang berisi API key asli (simpan kunci hanya di salinan ini)
+MBG_Guard.local.html
