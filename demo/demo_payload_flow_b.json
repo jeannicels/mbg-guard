@@ -1,0 +1,97 @@
+{
+  "schools": [
+    {
+      "school_id": "sdn-merdeka-01",
+      "school_name": "SDN Merdeka 01"
+    },
+    {
+      "school_id": "sdn-harapan-bangsa-02",
+      "school_name": "SDN Harapan Bangsa 02"
+    },
+    {
+      "school_id": "smpn-nusantara-03",
+      "school_name": "SMPN Nusantara 03"
+    }
+  ],
+  "operational_records": [
+    {
+      "school_id": "sdn-merdeka-01",
+      "temperature_c": 38,
+      "serving_time": "12:40",
+      "distribution_status": "late",
+      "last_updated": "2026-10-05 12:45"
+    },
+    {
+      "school_id": "sdn-harapan-bangsa-02",
+      "temperature_c": 66,
+      "serving_time": "11:55",
+      "distribution_status": "on_time",
+      "last_updated": "2026-10-05 12:00"
+    },
+    {
+      "school_id": "smpn-nusantara-03",
+      "temperature_c": 45,
+      "serving_time": "12:10",
+      "distribution_status": "on_time",
+      "last_updated": "2026-10-05 12:15"
+    }
+  ],
+  "student_reviews": [
+    {
+      "school_id": "sdn-merdeka-01",
+      "menu": "",
+      "category": "bau",
+      "symptom": "perut sakit",
+      "severity": "tinggi",
+      "needs_review": true
+    },
+    {
+      "school_id": "sdn-merdeka-01",
+      "menu": "",
+      "category": "kondisi makanan",
+      "symptom": "muntah",
+      "severity": "tinggi",
+      "needs_review": true
+    },
+    {
+      "school_id": "sdn-merdeka-01",
+      "menu": "",
+      "category": "porsi",
+      "symptom": "",
+      "severity": "rendah",
+      "needs_review": false
+    },
+    {
+      "school_id": "sdn-harapan-bangsa-02",
+      "menu": "",
+      "category": "rasa",
+      "symptom": "",
+      "severity": "rendah",
+      "needs_review": false
+    },
+    {
+      "school_id": "sdn-harapan-bangsa-02",
+      "menu": "sayur",
+      "category": "kondisi makanan",
+      "symptom": "",
+      "severity": "sedang",
+      "needs_review": false
+    },
+    {
+      "school_id": "smpn-nusantara-03",
+      "menu": "sayur",
+      "category": "benda asing",
+      "symptom": "",
+      "severity": "tinggi",
+      "needs_review": true
+    },
+    {
+      "school_id": "smpn-nusantara-03",
+      "menu": "tempe",
+      "category": "kondisi makanan",
+      "symptom": "",
+      "severity": "sedang",
+      "needs_review": false
+    }
+  ]
+}
