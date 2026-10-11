@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MBG Guard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EDF2F1;--surface:#fff;--ink:#12302C;--muted:#5B706C;--line:#CBD8D5;--primary:#0E6E73;--on-primary:#fff;--sun:#F4B63A;--sun-ink:#3F2C00;
+--red:#C8372D;--amber:#9A6200;--green:#23804F;--red-bg:#FBE4E1;--amber-bg:#FCEFD2;--green-bg:#DDF1E5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1B1A;--surface:#172625;--ink:#E4EFED;--muted:#9DB4B0;--line:#2B403D;--primary:#58C4C9;--on-primary:#06292B;--sun:#E0A530;--sun-ink:#2A1C00;--red:#FF8F86;--amber:#F2B84B;--green:#6FD59A;--red-bg:#3A1E1B;--amber-bg:#3A2D12;--green-bg:#173626}}
+:root[data-theme="dark"]{--bg:#0F1B1A;--surface:#172625;--ink:#E4EFED;--muted:#9DB4B0;--line:#2B403D;--primary:#58C4C9;--on-primary:#06292B;--sun:#E0A530;--sun-ink:#2A1C00;--red:#FF8F86;--amber:#F2B84B;--green:#6FD59A;--red-bg:#3A1E1B;--amber-bg:#3A2D12;--green-bg:#173626}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 Nunito,system-ui,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;padding:20px 18px 110px}
+h1,h2,h3{margin:0;font-weight:800;line-height:1.2}
+h1{font-size:2.1rem}h2{font-size:1.4rem;margin-bottom:6px}h3{font-size:1.05rem}
+p{margin:0 0 12px}.muted{color:var(--muted)}.small{font-size:.88rem}
+.btn{border:0;background:var(--primary);color:var(--on-primary);font-weight:800;padding:13px 22px;border-radius:14px;cursor:pointer;min-height:48px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn.sm{padding:6px 14px;min-height:36px;border-radius:10px;font-size:.9rem}
+label{display:block;font-weight:600;margin:16px 0 6px}
+input[type=text],input[type=email],select,textarea{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:var(--surface)}
+textarea{min-height:140px;resize:vertical}
+/* login */
+.hero{padding:34px 0 8px}
+.roles{display:grid;gap:12px;margin:22px 0 6px}
+.role{text-align:left;border:2px solid var(--line);background:var(--surface);padding:20px 22px;cursor:pointer;display:block;width:100%}
+.role:nth-child(1){border-radius:30px 10px 10px 30px}.role:nth-child(2){border-radius:10px 30px 30px 10px}
+.role strong{display:block;font-size:1.35rem;font-weight:800}
+.role[aria-pressed=true]{border-color:var(--primary);outline:3px solid var(--primary);outline-offset:-5px}
+/* shell */
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.chip{display:inline-block;background:var(--sun);color:var(--sun-ink);font-weight:800;font-size:.85rem;padding:3px 12px;border-radius:99px}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:2px solid var(--line);display:flex;justify-content:center;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+nav.tabs div{display:flex;gap:6px;width:100%;max-width:640px}
+nav.tabs button{flex:1;border:0;background:none;padding:10px 6px;border-radius:12px;font-weight:600;cursor:pointer;min-height:48px;color:var(--muted)}
+nav.tabs button[aria-selected=true]{background:var(--primary);color:var(--on-primary);font-weight:800}
+/* jadwal */
+.day{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:14px 14px;border-bottom:1px solid var(--line)}
+.day b{font-weight:800}
+.day.today{background:var(--sun);color:var(--sun-ink);border-radius:16px;border-bottom-color:transparent}
+.day ul{margin:0;padding-left:18px}
+/* review */
+.sent{background:var(--green-bg);color:var(--green);border-left:6px solid var(--green);padding:14px 16px;border-radius:4px 14px 14px 4px;font-weight:800;margin:14px 0}
+.fail{background:var(--amber-bg);color:var(--amber);border-left-color:var(--amber)}
+.item{border-left:6px solid var(--line);padding:12px 14px;background:var(--surface);margin-bottom:10px;border-radius:4px 14px 14px 4px}
+.item.s-tinggi{border-left-color:var(--red)}.item.s-sedang{border-left-color:var(--amber)}.item.s-rendah{border-left-color:var(--green)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row.sb{justify-content:space-between}
+.badge{font-size:.82rem;font-weight:600;padding:2px 10px;border-radius:99px;border:1.5px solid var(--line)}
+.badge.tinggi{background:var(--red-bg);color:var(--red);border-color:transparent;font-weight:800}
+.badge.sedang{background:var(--amber-bg);color:var(--amber);border-color:transparent;font-weight:800}
+.badge.rendah{background:var(--green-bg);color:var(--green);border-color:transparent;font-weight:800}
+.badge.flag{background:var(--ink);color:var(--bg);border-color:transparent;font-weight:800}
+.stats{display:flex;gap:22px;margin:12px 0 4px;flex-wrap:wrap}
+.stats b{display:block;font-size:1.8rem;font-weight:800;line-height:1}
+.filters{display:flex;gap:16px;align-items:end;flex-wrap:wrap;margin:10px 0 16px}
+.filters select{width:auto;min-width:200px}
+.filters label{margin:0;display:flex;gap:8px;align-items:center}
+.avatar{width:72px;height:72px;border-radius:50% 50% 50% 12px;background:var(--primary);color:var(--on-primary);font-size:2rem;font-weight:800;display:grid;place-items:center}
+dl{display:grid;grid-template-columns:110px 1fr;gap:10px 14px;margin:18px 0}dt{color:var(--muted)}dd{margin:0;font-weight:600;word-break:break-all}
+@media (prefers-reduced-motion:no-preference){.sent{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:.4}}}
+</style>
+</head>
+<body><div style="background:#fff4d6;color:#5a4300;padding:8px 12px;font:13px/1.4 sans-serif;text-align:center">Prototipe contoh: ini demonstrasi tampilan. Sambungan ke Langflow belum teruji, dan Bob tidak terhubung ke halaman ini.</div>
+<div id="app" class="wrap"></div>
+<script>
+const SCHOOLS=['SDN Merdeka 01','SDN Harapan Bangsa 02','SMPN Nusantara 03'];
+const DAYS=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const MENU={1:['Nasi putih','Ayam goreng','Sayur sop','Pisang'],2:['Nasi putih','Ikan goreng','Tumis kangkung','Jeruk'],3:['Nasi putih','Telur balado','Sayur bayam bening','Semangka'],4:['Nasi putih','Tempe orek','Capcay','Pepaya'],5:['Nasi putih','Semur daging','Tumis buncis','Apel']};
+const SEND_OK='Review sudah kami terima. Terima kasih atas waktunya!';
+const SEND_BAD='Pesan Anda belum bisa kami pahami, tolong ketik ulang.';
+
+const CFG={url:'http://127.0.0.1:7860',key:'ISI_API_KEY_LANGFLOW',flowA:'ISI_FLOW_ID_A',flowB:'ISI_FLOW_ID_B',flowC:'ISI_FLOW_ID_C'};
+async function runFlow(id,text){
+  const r=await fetch(CFG.url+'/api/v1/run/'+id,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':CFG.key},
+    body:JSON.stringify({input_value:text,input_type:'chat',output_type:'chat'})});
+  if(!r.ok) throw new Error('Langflow '+r.status);
+  const j=await r.json();
+  const o=(j.outputs&&j.outputs[0]&&j.outputs[0].outputs&&j.outputs[0].outputs[0])||{};
+  const m=(o.results&&o.results.message)||(o.outputs&&o.outputs.message)||{};
+  return m.text||m.message||(o.messages&&o.messages[0]&&o.messages[0].message)||'';
+}
+const SC={'SDN Merdeka 01':'S1','SDN Harapan Bangsa 02':'S2','SMPN Nusantara 03':'S3'};
+const itemsOf=r=>r.items||(r.cls?[r.cls]:[]);
+
+function classify(text){
+  const t=text.toLowerCase();
+  if(!/makan|nasi|ayam|ikan|sayur|lauk|tempe|tahu|telur|buah|porsi|menu|mbg|rasa|sop|goreng|susu|daging/.test(t)) return null;
+  const sym=(t.match(/mual|muntah|pusing|diare|sakit perut|perut sakit|gatal/)||[''])[0];
+  const foreign=/ulat|belatung|rambut|plastik|kerikil|serangga|lalat/.test(t);
+  const neg=sym||foreign||/basi|bau|busuk|dingin|keras|hambar|asin|kotor|jorok|telat|terlambat|sedikit|kecil|kurang|alergi|lembek|mentah|tidak enak|nggak enak|gak enak/.test(t);
+  const sar=/tolong|sebaiknya|kalau bisa|usul|tambah|saran/.test(t);
+  const pos=/enak|segar|suka|mantap|bersih|bagus|lezat|hangat/.test(t);
+  let jenis=neg?'keluhan':sar?'saran':pos?'pujian':null; if(!jenis) return null;
+  let category='lainnya';
+  if(jenis==='keluhan'||jenis==='pujian'){
+    if(foreign) category='benda asing'; else if(/alergi/.test(t)) category='kekhawatiran alergi';
+    else if(/bau/.test(t)) category='bau'; else if(/basi|busuk|dingin|lembek|mentah|segar|hangat/.test(t)) category='kondisi makanan';
+    else if(/kotor|jorok|bersih/.test(t)) category='kebersihan'; else if(/telat|terlambat/.test(t)) category='keterlambatan';
+    else if(/sedikit|kecil|kurang|porsi/.test(t)) category='porsi'; else if(/rasa|hambar|asin|enak|lezat/.test(t)) category='rasa';
+  }
+  let severity='rendah';
+  if(jenis==='keluhan'){ if(sym||foreign) severity='tinggi'; else if(['bau','kondisi makanan','kebersihan','kekhawatiran alergi'].includes(category)) severity='sedang'; }
+  const needs_review=jenis==='keluhan'&&(!!sym||['benda asing','kekhawatiran alergi','bau','kebersihan'].includes(category)||/basi|busuk|mentah/.test(t));
+  const dish=['nasi goreng','ayam goreng','sayur sop','ayam','ikan','telur','tempe','tahu','sayur','nasi','buah','daging'].find(d=>t.includes(d))||'';
+  return {jenis,menu:dish,category,symptom:sym,severity,needs_review};
+}
+
+const KEY='mbg-guard-proto-v1'; let mem=null;
+function load(){try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r)}catch(e){} return mem}
+function save(){mem=D;try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
+function seed(){
+  const now=Date.now(),h=3600e3;
+  const s=(school,text,ago)=>({id:'c'+ago,ts:now-ago*h,school,email:'murid'+ago+'@contoh.id',text,cls:classify(text),reviewed:false,sample:true});
+  return {reviews:[s('SDN Merdeka 01','Nasi gorengnya basi, temanku muntah setelah makan',2),s('SDN Merdeka 01','Porsinya sedikit sekali hari ini',5),
+    s('SDN Harapan Bangsa 02','Makanannya enak dan bersih, sayurnya segar',4),s('SMPN Nusantara 03','Ada ulat di sayuran',3)]};
+}
+let D=load()||seed();
+const S={user:null,pick:null,tab:'jadwal',draft:'',notice:null,fSchool:SCHOOLS[0],onlyReview:false};
+
+function el(tag,attrs,...kids){const n=document.createElement(tag);
+  for(const[k,v]of Object.entries(attrs||{})){if(k==='class')n.className=v;else if(k.startsWith('on'))n.addEventListener(k.slice(2),v);else if(v===true)n.setAttribute(k,'');else if(v!==false&&v!=null)n.setAttribute(k,v)}
+  for(const c of kids.flat())if(c!=null)n.append(c.nodeType?c:document.createTextNode(c)); return n}
+const fmt=ts=>new Date(ts).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+const mask=e=>{const[a,b]=e.split('@');return a.slice(0,2)+'***'+(b?'@'+b:'')};
+const nameOf=e=>{const a=(e.split('@')[0]||'').trim();return a?a[0].toUpperCase()+a.slice(1):'Pengguna'};
+
+function render(){document.getElementById('app').replaceChildren(S.user?shell():login())}
+
+function login(){
+  const email=el('input',{type:'email',id:'em',placeholder:'nama@contoh.id (boleh isi apa saja)',autocomplete:'off'});
+  const sch=el('select',{id:'ls'},SCHOOLS.map(s=>el('option',{value:s},s)));
+  const schBox=el('div',{style:S.pick==='murid'?'':'display:none'},el('label',{for:'ls'},'Sekolah'),sch,el('p',{class:'muted small'},'Prototipe: di sistem asli sekolah sudah terdaftar di akun murid.'));
+  const go=el('button',{class:'btn',disabled:!S.pick,onclick:()=>{
+    const m=S.pick==='murid';S.user={role:S.pick,email:email.value.trim(),school:m?sch.value:null};S.tab='jadwal';S.fSchool=m?S.user.school:'all';S.notice=null;render()}},'Masuk');
+  const tile=(id,name,desc)=>el('button',{class:'role','aria-pressed':String(S.pick===id),onclick:()=>{S.pick=id;schBox.style.display=id==='murid'?'':'none';
+    document.querySelectorAll('.role').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.id===id)));go.disabled=false},'data-id':id},el('strong',{},name),el('span',{class:'muted'},desc));
+  return el('div',{},el('div',{class:'hero'},el('h1',{},'MBG Guard'),
+    el('p',{class:'muted'},'Sampaikan masukan soal makan bergizi gratis, dan pantau laporannya di sekolah.')),
+    el('h2',{},'Masuk sebagai'),
+    el('div',{class:'roles'},tile('murid','Murid','Lihat jadwal menu dan tulis review makananmu.'),tile('petugas','Petugas','Cek review yang masuk dari murid.')),
+    el('label',{for:'em'},'Email'),email,schBox,el('p',{class:'muted small'},'Prototipe: email apa pun diterima, belum ada kata sandi.'),el('div',{style:'margin-top:14px'},go))
+}
+
+function shell(){
+  const u=S.user,isP=u.role==='petugas';
+  const tabs=[['jadwal','Jadwal MBG'],['review',isP?'Cek review':'Tulis review'],...(isP?[['ringkasan','Ringkasan']]:[]),['profil','Profil']];
+  const body={jadwal:jadwal,review:isP?cek:tulis,ringkasan:ringkasan,profil:profil}[S.tab]();
+  return el('div',{},el('div',{class:'top'},el('div',{},el('strong',{style:'font-size:1.2rem'},'MBG Guard'),' ',el('span',{class:'chip'},isP?'Petugas':'Murid')),
+    el('button',{class:'btn ghost sm',onclick:()=>{S.user=null;S.pick=null;S.draft='';render()}},'Keluar')),
+    body,el('nav',{class:'tabs','aria-label':'Menu utama'},el('div',{role:'tablist'},tabs.map(([id,t])=>
+      el('button',{role:'tab','aria-selected':String(S.tab===id),onclick:()=>{S.tab=id;S.notice=null;render()}},t)))))
+}
+
+function jadwal(){
+  const d=new Date().getDay(),wk=d>=1&&d<=5;
+  return el('div',{},el('h2',{},'Jadwal MBG'),
+    el('p',{class:'muted'},wk?'Hari ini '+DAYS[d]+': '+MENU[d].join(', ')+'.':'Hari ini tidak ada MBG. Jadwal berikut berlaku Senin sampai Jumat.'),
+    [1,2,3,4,5].map(n=>el('div',{class:'day'+(wk&&n===d?' today':'')},el('b',{},DAYS[n]),el('ul',{},MENU[n].map(m=>el('li',{},m))))),
+    el('p',{class:'muted small',style:'margin-top:14px'},'Contoh jadwal. Jadwal asli diisi oleh sekolah.'))
+}
+
+function tulis(){
+  const u=S.user,mine=D.reviews.filter(r=>r.email===u.email&&!r.sample).sort((a,b)=>b.ts-a.ts);
+  const LIMIT=10,usedToday=mine.filter(r=>new Date(r.ts).toDateString()===new Date().toDateString()).length,left=Math.max(0,LIMIT-usedToday);
+  const ta=el('textarea',{id:'tx',maxlength:'500',placeholder:'Contoh: nasinya enak, tapi ayamnya dingin.',oninput:e=>{S.draft=e.target.value;send.disabled=!S.draft.trim()||!left}},S.draft);
+  const send=el('button',{class:'btn',disabled:!S.draft.trim()||!left,onclick:async()=>{
+    if(usedToday>=LIMIT){S.notice={ok:false,msg:'Batas '+LIMIT+' review per hari sudah tercapai.'};render();return}
+    const text=S.draft.trim();send.disabled=true;send.textContent='Mengirim...';
+    try{
+      const raw=await runFlow(CFG.flowA,text);let out;
+      try{out=JSON.parse(raw)}catch(_){throw new Error('Flow A belum versi v13 (balasan bukan JSON)')}
+      const items=out.items||[];
+      if(!out.valid||!items.length){S.notice={ok:false,msg:SEND_BAD}}
+      else{const rank=i=>(i.needs_review?10:0)+({tinggi:2,sedang:1,rendah:0}[i.severity]||0);
+        const cls=items.slice().sort((a,b)=>rank(b)-rank(a))[0];
+        D.reviews.push({id:'r'+Date.now(),ts:Date.now(),school:u.school,email:u.email,text,cls,items,reviewed:false});save();S.draft='';S.notice={ok:true,msg:SEND_OK}}
+    }catch(e){S.notice={ok:false,msg:'Gagal terhubung ke Langflow: '+e.message}}
+    render()}},'Kirim review');
+  return el('div',{},el('h2',{},'Tulis review'),el('p',{class:'muted'},'Ceritakan makanan yang kamu makan hari ini: rasa, porsi, kondisi makanan, atau saran.'),
+    el('label',{for:'tx'},'Review kamu'),ta,el('div',{class:'row',style:'margin-top:12px'},send),el('p',{class:'muted small'},left?'Sisa '+left+' dari '+LIMIT+' review hari ini.':'Batas '+LIMIT+' review hari ini sudah tercapai. Coba lagi besok.'),
+    S.notice&&el('div',{class:'sent'+(S.notice.ok?'':' fail'),role:'status'},S.notice.msg),
+    el('h3',{style:'margin:26px 0 10px'},'Review yang sudah kamu kirim'),
+    mine.length?mine.map(r=>el('div',{class:'item'},el('div',{class:'small muted'},fmt(r.ts)),el('div',{},r.text))):el('p',{class:'muted'},'Belum ada review. Tulis yang pertama di atas.'))
+}
+
+function cek(){
+  const all=S.fSchool==='all',list=D.reviews.filter(r=>(all||r.school===S.fSchool)&&(!S.onlyReview||r.cls.needs_review)).sort((a,b)=>b.ts-a.ts);
+  const sel=el('select',{id:'fs',onchange:e=>{S.fSchool=e.target.value;render()}},el('option',{value:'all',selected:all},'Semua sekolah'),SCHOOLS.map(s=>el('option',{value:s,selected:s===S.fSchool},s)));
+  const only=el('input',{type:'checkbox',checked:S.onlyReview,onchange:e=>{S.onlyReview=e.target.checked;render()}});
+  const stat=(n,l)=>el('div',{},el('b',{},String(n)),el('span',{class:'muted small'},l));
+  const base=D.reviews.filter(r=>all||r.school===S.fSchool);
+  return el('div',{},el('h2',{},'Cek review'),
+    el('div',{class:'stats'},stat(base.length,'review masuk'),stat(base.filter(r=>r.cls.needs_review).length,'perlu ditinjau'),stat(base.filter(r=>r.cls.severity==='tinggi').length,'severity tinggi')),
+    el('div',{class:'filters'},el('div',{},el('label',{for:'fs',style:'margin-top:0'},'Sekolah'),sel),el('label',{},only,'Hanya yang perlu ditinjau')),
+    list.length?list.map(r=>el('div',{class:'item s-'+r.cls.severity},
+      el('div',{class:'row sb small muted'},el('span',{},r.school),el('span',{},fmt(r.ts))),
+      el('p',{style:'margin:6px 0 8px'},r.text),
+      el('div',{class:'row'},el('span',{class:'badge'},r.cls.jenis),el('span',{class:'badge'},r.cls.category),el('span',{class:'badge '+r.cls.severity},r.cls.severity),
+        r.cls.needs_review&&el('span',{class:'badge flag'},'perlu ditinjau'),r.cls.symptom&&el('span',{class:'small'},'gejala: '+r.cls.symptom),r.sample&&el('span',{class:'small muted'},'contoh')),
+      el('div',{class:'row sb',style:'margin-top:10px'},el('span',{class:'small muted'},mask(r.email||'murid')),
+        el('button',{class:'btn ghost sm',onclick:()=>{r.reviewed=!r.reviewed;save();render()}},r.reviewed?'Sudah ditinjau':'Tandai sudah ditinjau')))
+    ):el('p',{class:'muted'},'Tidak ada review untuk filter ini.'),
+    el('p',{class:'muted small',style:'margin-top:16px'},'Review baru diklasifikasi Flow A (Langflow); review berlabel contoh disimulasikan.'))
+}
+
+function ringkasan(){
+  const box=el('pre',{style:'white-space:pre-wrap;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:14px;font:inherit'},S.sum||'Belum dimuat.');
+  const btn=el('button',{class:'btn',onclick:async()=>{
+    btn.disabled=true;box.textContent='Memproses lewat Flow B lalu Flow C...';
+    const rv=[];D.reviews.forEach(r=>itemsOf(r).forEach(c=>rv.push({school_id:SC[r.school],jenis:c.jenis||'',menu:c.menu||'',category:c.category,symptom:c.symptom||'',severity:c.severity,needs_review:!!c.needs_review})));
+    const payload={schools:SCHOOLS.map(n=>({school_id:SC[n],school_name:n})),operational_records:[],student_reviews:rv};
+    try{const b=await runFlow(CFG.flowB,JSON.stringify(payload));S.sum=await runFlow(CFG.flowC,b)}catch(e){S.sum='Gagal: '+e.message}
+    render()}},'Perbarui ringkasan');
+  return el('div',{},el('h2',{},'Ringkasan sekolah'),el('p',{class:'muted'},'Hasil Flow B (deteksi) lalu Flow C (ringkasan) dari review yang sudah masuk.'),el('div',{style:'margin-bottom:12px'},btn),box)
+}
+
+function profil(){
+  const u=S.user,isP=u.role==='petugas';
+  
+  return el('div',{},el('h2',{},'Profil'),el('div',{class:'row',style:'margin:14px 0'},el('div',{class:'avatar'},nameOf(u.email)[0]),el('div',{},el('h3',{},nameOf(u.email)),el('span',{class:'muted'},isP?'Petugas MBG':'Murid'))),
+    el('dl',{},el('dt',{},'Email'),el('dd',{},u.email||'(kosong)'),el('dt',{},'Peran'),el('dd',{},isP?'Petugas MBG':'Murid'),el('dt',{},isP?'Cakupan':'Sekolah'),el('dd',{},isP?'Semua sekolah':u.school)),
+    el('p',{class:'muted small'},isP?'Petugas MBG memantau review dari semua sekolah.':'Sekolah sudah terdaftar di akunmu, jadi review otomatis masuk ke sekolah ini.'))
+}
+render();
+</script>
+</body>
+</html>
